@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Portfolio Item - Start Bootstrap Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/portfolio-item.css" rel="stylesheet">
+
+    <!-- Temporary fix for navbar responsiveness -->
+    <style>
+    .navbar-toggler {
+        z-index: 1;
+    }
+    
+    @media (max-width: 576px) {
+        nav > .container {
+            width: 100%;
+        }
+    }
+    </style>
+
+</head>
+
+<body onload="javascript:siguienteEjercicio(1)">
+
+    <!-- Page Content -->
+    <div class="container">
+        <!-- Portfolio Item Row -->
+        <div class="row">
+
+            <div class="col-md-4">
+                <img id="imagenEjercicio" class="img-fluid" src="" alt="">
+            </div>
+        <!-- /.row -->
+           
+            <div class="col-md-8">
+                <div id="coincidencias" class="row">
+                    <!--div id="palabra1" value="Palabra1" class="label-replace">...</div>
+                    <div id="palabra2" value="Palabra2" class="label-replace">...</div>
+                    <div id="palabra3" value="Palabra3" class="label-replace">...</div-->
+                </div>
+                <input type="hidden" id="totalPalabras" value="">
+
+                <div id="opciones" class="row">
+                    <!--div style="padding-right: 5px">
+                        <input type="button" class="btn btn-info" value="Palabra1" onmouseover="javascript:pintar(this.value);" onclick="javascript:validar(this);">
+                    </div>
+                    <div style="padding-right: 5px">
+                        <input type="button" class="btn btn-info" value="Palabra2" onmouseover="javascript:pintar(this.value);" onclick="javascript:validar(this);">
+                    </div>
+                    <div style="padding-right: 5px">
+                        <input type="button" class="btn btn-info" value="Palabra3" onmouseover="javascript:pintar(this.value);" onclick="javascript:validar(this);">
+                    </div-->
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div  class="label-replace" style="padding: 10px;">SCORE 
+                    <div id="score" class="label-replace" style="padding: 10px;">
+                    0
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-8-->
+
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery Version 3.1.1 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-latest.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/controlador.js"></script>
+
+    <!-- Tether -->
+    <script src="js/tether.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.js"></script>
+
+</body>
+
+</html>

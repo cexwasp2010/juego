@@ -1,0 +1,256 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.3.16
+-- Dumped by pg_dump version 9.3.16
+-- Started on 2017-03-22 09:37:45
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 1955 (class 1262 OID 16393)
+-- Dependencies: 1954
+-- Name: juego; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON DATABASE juego IS 'contiene la estructura del juego';
+
+
+--
+-- TOC entry 1 (class 3079 OID 11750)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 1958 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 171 (class 1259 OID 16394)
+-- Name: frase; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE frase (
+    id_frase integer NOT NULL,
+    imagen character varying(255),
+    nivel integer NOT NULL,
+    tipo integer NOT NULL
+);
+
+
+ALTER TABLE public.frase OWNER TO postgres;
+
+--
+-- TOC entry 1959 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: COLUMN frase.imagen; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN frase.imagen IS 'url de la imagen';
+
+
+--
+-- TOC entry 1960 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: COLUMN frase.tipo; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN frase.tipo IS 'tipo de frase';
+
+
+--
+-- TOC entry 172 (class 1259 OID 16406)
+-- Name: palabra; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE palabra (
+    id_palabra integer NOT NULL,
+    parte_id integer NOT NULL,
+    sintaxis character varying NOT NULL,
+    definicion character varying DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public.palabra OWNER TO postgres;
+
+--
+-- TOC entry 173 (class 1259 OID 24584)
+-- Name: parte; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE parte (
+    id_parte integer NOT NULL,
+    frase_id integer NOT NULL,
+    posicion integer NOT NULL,
+    opciones integer DEFAULT 3 NOT NULL
+);
+
+
+ALTER TABLE public.parte OWNER TO postgres;
+
+--
+-- TOC entry 1961 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: TABLE parte; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE parte IS 'Parte a la que corresponde la palabra dentro de la frase';
+
+
+--
+-- TOC entry 1962 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: COLUMN parte.frase_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN parte.frase_id IS 'frase a la que pertenece';
+
+
+--
+-- TOC entry 1963 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: COLUMN parte.posicion; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN parte.posicion IS 'posicion correspondiente dentro de la frase';
+
+
+--
+-- TOC entry 1964 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: COLUMN parte.opciones; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN parte.opciones IS 'Cantidad de palabras que muestra como posibles soluciones';
+
+
+--
+-- TOC entry 1947 (class 0 OID 16394)
+-- Dependencies: 171
+-- Data for Name: frase; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY frase (id_frase, imagen, nivel, tipo) FROM stdin;
+1	http://st3.depositphotos.com/10638998/14415/i/1600/depositphotos_144155583-stock-photo-senior-couple-listening-music.jpg	1	1
+\.
+
+
+--
+-- TOC entry 1948 (class 0 OID 16406)
+-- Dependencies: 172
+-- Data for Name: palabra; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY palabra (id_palabra, parte_id, sintaxis, definicion) FROM stdin;
+1	1	They	ellos
+2	1	He	el
+3	1	She	ella
+4	2	is	es
+5	2	are	es
+6	2	is not	no  es
+7	3	reading	leyendo
+8	3	eating	comiendo
+9	3	listening	escuchando
+11	4	a car	a car
+12	4	to music	to music
+10	4	a horse	a horse
+\.
+
+
+--
+-- TOC entry 1949 (class 0 OID 24584)
+-- Dependencies: 173
+-- Data for Name: parte; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY parte (id_parte, frase_id, posicion, opciones) FROM stdin;
+1	1	1	3
+2	1	2	3
+3	1	3	3
+4	1	4	3
+\.
+
+
+--
+-- TOC entry 1833 (class 2606 OID 16398)
+-- Name: llave primaria; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY frase
+    ADD CONSTRAINT "llave primaria" PRIMARY KEY (id_frase);
+
+
+--
+-- TOC entry 1837 (class 2606 OID 24594)
+-- Name: llave primaria parte; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY parte
+    ADD CONSTRAINT "llave primaria parte" PRIMARY KEY (id_parte);
+
+
+--
+-- TOC entry 1835 (class 2606 OID 16414)
+-- Name: primaria llave; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY palabra
+    ADD CONSTRAINT "primaria llave" PRIMARY KEY (id_palabra);
+
+
+--
+-- TOC entry 1839 (class 2606 OID 24588)
+-- Name: identificador frase; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY parte
+    ADD CONSTRAINT "identificador frase" FOREIGN KEY (frase_id) REFERENCES frase(id_frase);
+
+
+--
+-- TOC entry 1838 (class 2606 OID 24595)
+-- Name: llave foranea parte; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY palabra
+    ADD CONSTRAINT "llave foranea parte" FOREIGN KEY (parte_id) REFERENCES parte(id_parte);
+
+
+--
+-- TOC entry 1957 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2017-03-22 09:37:45
+
+--
+-- PostgreSQL database dump complete
+--
+
