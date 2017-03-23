@@ -1,8 +1,8 @@
-var palabraNumero = 1;
+var palabraNumero = 0;
+var totalEjercicios = 0;
 var ejercicio = 1;
 var contador = 0;
 var aciertos = 0;
-
 var palabras = [];
 
 function validar(palabra)
@@ -15,8 +15,16 @@ function validar(palabra)
 		document.getElementById('score').innerHTML = aciertos;
 		if(document.getElementById('totalPalabras').getAttribute('value') == palabraNumero)
 		{
-			siguienteEjercicio(++ejercicio);
-		}else{	//aumenta la variable palabraNumero en uno y consulta la siguiente palabra de la frase
+			if(++ejercicio <= totalEjercicios){
+				palabras = [];
+				siguienteEjercicio(ejercicio);
+			}else{
+	 			location.href="terminado.html";
+				var contador = 0;
+				var aciertos = 0;
+			}
+		}else{	
+			//aumenta la variable palabraNumero en uno y consulta la siguiente palabra de la frase
 			siguientePalabra(++palabraNumero);
 		}
 	}else{
@@ -51,19 +59,28 @@ function siguienteEjercicio(ejercicio)
   	}
   	xmlhttp.onreadystatechange=function() {
     	if (this.readyState==4 && this.status==200) {
-	     var txt = "";
-	     var response = JSON.parse(this.responseText);
-	        for (x in response) {
-	            txt += response[x].imagen ;
-	        	palabras = response[x].palabras;
+		     var txt = "";
+		     var response = JSON.parse(this.responseText);
+     	totalEjercicios = response.total;
+		for (posicion in response) {
+            txt += response.imagen ;
+        	if(!isNaN(posicion))
+        		palabras[posicion] = response[posicion];
 	        }
 	 	document.getElementById("imagenEjercicio").src = txt;
-	     // 	document.getElementById("score").innerHTML=this.responseText;
-	    }
+		var html = '';
+		//Pintamos los campos de las palabras que forman la frase y le asignamos el valor correcto
+		for(var i = 0; i<palabras.length; i++){
+	        html +=     '<div id="palabra'+i+'" value="'+palabras[i][0]+'" class="label-replace">...</div>';
+		}
+		document.getElementById('coincidencias').innerHTML=html;
+		document.getElementById('totalPalabras').value = palabras.length-1;
+    	palabraNumero = 0;
+		siguientePalabra(palabraNumero)
+		}
 	}
-  	xmlhttp.open("GET","conector_pg.php?q="+1);
+  	xmlhttp.open("GET","conector_pg.php?q="+ejercicio);
 	xmlhttp.send();
-
 	 /*if(ejercicio==1){
 	 	document.getElementById("imagenEjercicio").src = "http://st3.depositphotos.com/10638998/14415/i/1600/depositphotos_144155583-stock-photo-senior-couple-listening-music.jpg";
 		 palabras = [
@@ -92,35 +109,18 @@ function siguienteEjercicio(ejercicio)
 		  ['stealing', 'feeding', 'drawing', 'throwing', 'putting'],
 		  ['a wallet', 'over', 'a rope', 'a dog', 'a ball']
 		];
-	}else{*/
- 	if(ejercicio==2){
- 		location.href="terminado.html";
-		var contador = 0;
-		var aciertos = 0;
-	}
-	//}
-	
-	palabraNumero = 1;
-	var html = '';
-	//Pintamos los campos de las palabras que forman la frase y le asignamos el valor correcto
-	for(var i = 0; i<palabras.length; i++){
-        html +=     '<div id="palabra'+(i+1)+'" value="'+palabras[i][0]+'" class="label-replace">...</div>';
-	}
-	document.getElementById('coincidencias').innerHTML=html;
-	document.getElementById('totalPalabras').value = palabras.length;
-
-	siguientePalabra(palabraNumero)
-	//Código para traer el siguiente ejercicio
+	}*/
 }
-
+/**
+* Consulta la siguiente palabra de la frase y pinta los botones opcionales
+*/
 function siguientePalabra(numero)
 {
 	var html = '';
 	//Pintamos los botones que hacen parte del campo que se va a comparar 
-	palabras[numero-1];
-	for(var i = 0; i<palabras[numero-1].length; i++){
+	for(var i = 0; i<palabras[numero][1].length; i++){
         html +=     ' <div style="padding-right: 5px; padding-top: 14px;">'
-                        +'<input type="button" class="btn btn-info" value="'+palabras[numero-1][i]+'" onmouseout="limpiarPalabra()" onmouseover="javascript:pintar(this.value);" onclick="javascript:validar(this);">'+
+                        +'<input type="button" class="btn btn-info" value="'+palabras[numero][1][i]+'" onmouseout="limpiarPalabra()" onmouseover="javascript:pintar(this.value);" onclick="javascript:validar(this);">'+
                     '</div>';
 	}
 	document.getElementById('opciones').innerHTML=html;
