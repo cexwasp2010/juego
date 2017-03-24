@@ -1,0 +1,385 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.6
+-- Dumped by pg_dump version 9.5.6
+
+-- Started on 2017-03-24 08:41:31 COT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 2210 (class 1262 OID 16384)
+-- Dependencies: 2209
+-- Name: juego; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON DATABASE juego IS 'contiene la estructura del juego';
+
+
+--
+-- TOC entry 1 (class 3079 OID 12435)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2213 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- TOC entry 184 (class 1259 OID 16431)
+-- Name: id_frase_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE id_frase_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE id_frase_seq OWNER TO postgres;
+
+--
+-- TOC entry 2214 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: SEQUENCE id_frase_seq; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON SEQUENCE id_frase_seq IS 'autoincremental de la tabla frase';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 181 (class 1259 OID 16385)
+-- Name: frase; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE frase (
+    id_frase integer DEFAULT nextval('id_frase_seq'::regclass) NOT NULL,
+    imagen character varying(255),
+    nivel integer NOT NULL,
+    tipo integer NOT NULL
+);
+
+
+ALTER TABLE frase OWNER TO postgres;
+
+--
+-- TOC entry 2215 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: COLUMN frase.imagen; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN frase.imagen IS 'url de la imagen';
+
+
+--
+-- TOC entry 2216 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: COLUMN frase.tipo; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN frase.tipo IS 'tipo de frase';
+
+
+--
+-- TOC entry 185 (class 1259 OID 16433)
+-- Name: id_palabra_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE id_palabra_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE id_palabra_seq OWNER TO postgres;
+
+--
+-- TOC entry 2217 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: SEQUENCE id_palabra_seq; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON SEQUENCE id_palabra_seq IS 'autoincremental de la llave primaria palabra';
+
+
+--
+-- TOC entry 186 (class 1259 OID 16435)
+-- Name: id_parte_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE id_parte_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE id_parte_seq OWNER TO postgres;
+
+--
+-- TOC entry 2218 (class 0 OID 0)
+-- Dependencies: 186
+-- Name: SEQUENCE id_parte_seq; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON SEQUENCE id_parte_seq IS 'autoincremental de la llave primaria parte';
+
+
+--
+-- TOC entry 182 (class 1259 OID 16388)
+-- Name: palabra; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE palabra (
+    id_palabra integer DEFAULT nextval('id_palabra_seq'::regclass) NOT NULL,
+    sintaxis character varying NOT NULL,
+    definicion character varying DEFAULT false NOT NULL,
+    tipo integer
+);
+
+
+ALTER TABLE palabra OWNER TO postgres;
+
+--
+-- TOC entry 2219 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: COLUMN palabra.tipo; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN palabra.tipo IS '1. verbo, 2. Adjetivo, 3. Adverbio..... etc. Completar según requerimientos';
+
+
+--
+-- TOC entry 183 (class 1259 OID 16395)
+-- Name: parte; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE parte (
+    id_parte integer DEFAULT nextval('id_parte_seq'::regclass) NOT NULL,
+    frase_id integer NOT NULL,
+    posicion integer NOT NULL,
+    opciones integer DEFAULT 3 NOT NULL,
+    palabra_id integer
+);
+
+
+ALTER TABLE parte OWNER TO postgres;
+
+--
+-- TOC entry 2220 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: TABLE parte; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON TABLE parte IS 'Parte a la que corresponde la palabra dentro de la frase';
+
+
+--
+-- TOC entry 2221 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: COLUMN parte.frase_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN parte.frase_id IS 'frase a la que pertenece';
+
+
+--
+-- TOC entry 2222 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: COLUMN parte.posicion; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN parte.posicion IS 'posicion correspondiente dentro de la frase';
+
+
+--
+-- TOC entry 2223 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: COLUMN parte.opciones; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN parte.opciones IS 'Cantidad de palabras que muestra como posibles soluciones';
+
+
+--
+-- TOC entry 2224 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: COLUMN parte.palabra_id; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN parte.palabra_id IS 'llave foránea a palabra';
+
+
+--
+-- TOC entry 2199 (class 0 OID 16385)
+-- Dependencies: 181
+-- Data for Name: frase; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY frase (id_frase, imagen, nivel, tipo) FROM stdin;
+1	http://st3.depositphotos.com/10638998/14415/i/1600/depositphotos_144155583-stock-photo-senior-couple-listening-music.jpg	1	1
+2	https://cdn.pixabay.com/photo/2017/02/03/05/32/man-2034538_960_720.png	1	1
+\.
+
+
+--
+-- TOC entry 2225 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: id_frase_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('id_frase_seq', 2, true);
+
+
+--
+-- TOC entry 2226 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: id_palabra_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('id_palabra_seq', 17, true);
+
+
+--
+-- TOC entry 2227 (class 0 OID 0)
+-- Dependencies: 186
+-- Name: id_parte_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('id_parte_seq', 5, true);
+
+
+--
+-- TOC entry 2200 (class 0 OID 16388)
+-- Dependencies: 182
+-- Data for Name: palabra; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY palabra (id_palabra, sintaxis, definicion, tipo) FROM stdin;
+1	They	ellos	1
+3	She	ella	1
+2	He	el	1
+4	is	es	2
+5	are	es	2
+6	is not	no  es	2
+7	reading	leyendo	3
+8	eating	comiendo	3
+9	listening	escuchando	3
+11	a car	a car	4
+12	to music	to music	4
+10	a horse	a horse	4
+15	You	tu	1
+16	Were	nosotros	1
+14	I	yo	1
+13	We	nosotros	1
+17	am	soy	1
+\.
+
+
+--
+-- TOC entry 2201 (class 0 OID 16395)
+-- Dependencies: 183
+-- Data for Name: parte; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY parte (id_parte, frase_id, posicion, opciones, palabra_id) FROM stdin;
+1	1	1	3	1
+2	1	2	3	5
+3	1	3	3	9
+4	1	4	3	12
+5	2	1	4	17
+\.
+
+
+--
+-- TOC entry 2078 (class 2606 OID 16400)
+-- Name: llave primaria; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY frase
+    ADD CONSTRAINT "llave primaria" PRIMARY KEY (id_frase);
+
+ALTER TABLE frase CLUSTER ON "llave primaria";
+
+
+--
+-- TOC entry 2082 (class 2606 OID 16402)
+-- Name: llave primaria parte; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY parte
+    ADD CONSTRAINT "llave primaria parte" PRIMARY KEY (id_parte);
+
+
+--
+-- TOC entry 2080 (class 2606 OID 16404)
+-- Name: primaria llave; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY palabra
+    ADD CONSTRAINT "primaria llave" PRIMARY KEY (id_palabra);
+
+
+--
+-- TOC entry 2083 (class 2606 OID 16405)
+-- Name: identificador frase; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY parte
+    ADD CONSTRAINT "identificador frase" FOREIGN KEY (frase_id) REFERENCES frase(id_frase);
+
+
+--
+-- TOC entry 2084 (class 2606 OID 16415)
+-- Name: identificador_palabra_correspondiente; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY parte
+    ADD CONSTRAINT identificador_palabra_correspondiente FOREIGN KEY (palabra_id) REFERENCES palabra(id_palabra) MATCH FULL;
+
+
+--
+-- TOC entry 2212 (class 0 OID 0)
+-- Dependencies: 7
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2017-03-24 08:41:31 COT
+
+--
+-- PostgreSQL database dump complete
+--
+
