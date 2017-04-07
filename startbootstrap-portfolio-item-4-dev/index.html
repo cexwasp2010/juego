@@ -33,45 +33,36 @@
 
 </head>
 
-<body onload="javascript:siguienteEjercicio(1)">
+<body>
 
     <!-- Page Content -->
-    <div class="container">
+    <div class="col-md-12">
         <!-- Portfolio Item Row -->
         <div class="row">
 
-            <div class="col-md-4">
+            <div style="margin-right: 10px;">
                 <img id="imagenEjercicio" class="img-fluid" src="" alt="">
             </div>
-        <!-- /.row -->
            
-            <div class="col-md-8">
-                <div id="coincidencias" class="row">
+            <div class="col-md-9">
+                <div id="coincidencias" class="row" style="width: 90%; height: 80%;">
                 </div>
                 <input type="hidden" id="totalPalabras" value="">
 
-                <div id="opciones" class="row">
-                    <!--div style="padding-right: 5px">
-                        <input type="button" class="btn btn-info" value="Palabra1" onmouseover="javascript:pintar(this.value);" onclick="javascript:validar(this);">
-                    </div>
-                    <div style="padding-right: 5px">
-                        <input type="button" class="btn btn-info" value="Palabra2" onmouseover="javascript:pintar(this.value);" onclick="javascript:validar(this);">
-                    </div>
-                    <div style="padding-right: 5px">
-                        <input type="button" class="btn btn-info" value="Palabra3" onmouseover="javascript:pintar(this.value);" onclick="javascript:validar(this);">
-                    </div-->
-                </div>
-                <!-- /.row -->
-                <div class="row">
-                    <div  class="label-replace" style="padding: 10px;">SCORE 
-                    <div id="score" class="label-replace" style="padding: 10px;">
+                <div class="row" style="bottom: 5px; position: absolute; height: 20%;">
+                    <div  class="label-score">SCORE 
+                    <div id="score" class="label-score">
                     0
                     </div>
                     </div>
                 </div>
             </div>
-            <!-- /.col-md-8-->
-
+            <!-- /.col-md-4-->
+        <!-- /.row -->
+        </div>
+        <div class="row">
+            <div id="opciones" class="col-md-6">
+            </div>
         </div>
 
     </div>
